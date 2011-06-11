@@ -4,10 +4,10 @@ $(document).ready( function()
 	$('#content').hide();
 	// takeover the loading.
 	$(document).takeoverloader( 
-		function( progressAmout ) // called each time an item is loaded
+		function( progressAmount ) // called each time an item is loaded
 		{
 			// do something with progressAmout (normalised)
-			$('.loadprogress').text( Math.round( progressAmout * 100 )+'%' );
+			$('.loadprogress').text( Math.round( progressAmount * 100 )+'%' );
 		},
 		function() // called when loading is finished
 		{
