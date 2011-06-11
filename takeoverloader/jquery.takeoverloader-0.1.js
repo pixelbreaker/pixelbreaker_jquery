@@ -43,8 +43,8 @@
 		var addLoaded = function()
 		{
 			numImages_--;
-			progress( 1-(numImages_/images_.length) );
-			if(numImages_==0) complete();
+			progress_( 1-(numImages_/images_.length) );
+			if(numImages_==0) complete_();
 		};
 
 		getAllImages();
