@@ -2,7 +2,7 @@
  * jQuery Image Take Over loader v0.1
  * http://blog.pixelbreaker.com/javascript/takeover-loader
  *
- * Copyright (c) 2009-2010 Gabriel Bucknall
+ * Copyright (c) 2011 Gabriel Bucknall
  * Dual licensed under the MIT or GPL Version 2 licenses.
  * http://jquery.org/license
  *
