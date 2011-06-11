@@ -1,1 +1,0 @@
-More info at: http://blog.pixelbreaker.com/javascript/takeover-loader
