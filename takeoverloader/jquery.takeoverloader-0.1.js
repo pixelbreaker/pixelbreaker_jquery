@@ -2,7 +2,7 @@
  * jQuery Image Take Over loader v0.1
  * http://blog.pixelbreaker.com/javascript/takeover-loader
  *
- * Copyright (c) 2011 Gabriel Bucknall
+ * Copyright (c) 2009-2010 Gabriel Bucknall
  * Dual licensed under the MIT or GPL Version 2 licenses.
  * http://jquery.org/license
  *
@@ -19,7 +19,7 @@
 			numImages_,
 			progress_ = progress || function(){},
 			complete_ = complete || function(){};
-
+			
 		var getAllImages = function()
 		{
 			el.find('img:not([src=""]):not(.noloader)').each(function( i, el )
@@ -33,10 +33,14 @@
 		{
 			$.each( images_, function( k, v )
 			{
-				$(v.el).load(function()
-				{
+				var imgObj = $(v.el);
+				if( v.el.complete )
 					addLoaded();
-				});
+				else
+					$(v.el).load(function()
+					{
+						addLoaded();
+					});
 			});
 		};
 
