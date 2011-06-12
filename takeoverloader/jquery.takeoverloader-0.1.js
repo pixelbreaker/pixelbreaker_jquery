@@ -48,7 +48,12 @@
 		{
 			numImages_--;
 			progress_( 1-(numImages_/images_.length) );
-			if(numImages_==0) complete_();
+			if(numImages_==0)
+			{
+				$.each( images_, function( k, v ){ $(v.el).unbind( 'load' ); });
+
+				complete_();
+			}
 		};
 
 		getAllImages();
