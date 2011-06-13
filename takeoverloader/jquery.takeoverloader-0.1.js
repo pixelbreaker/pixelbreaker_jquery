@@ -22,9 +22,9 @@
 			
 		var getAllImages = function()
 		{
-			el.find('img:not([src=""]):not(.noloader)').each(function( i, el )
+			el.find('img:not([src=""]):not(.noloader)').each(function()
 			{
-				images_.push( {uri: $(el).attr('src'), el:el} );
+				images_.push( {uri: $(this).attr('src'), el:this} );
 			});
 			numImages_ = images_.length;
 		};
