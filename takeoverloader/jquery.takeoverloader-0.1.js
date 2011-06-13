@@ -20,14 +20,6 @@
 			progress_ = progress || function(){},
 			complete_ = complete || function(){};
 			
-		eligible.each(function()
-		{
-			if( this.complete ) 
-				stepProgress();
-			else 
-				$(this).load( function(){stepProgress();} );
-		});
-
 		var stepProgress = function()
 		{
 			loaded_++;
@@ -38,5 +30,13 @@
 				complete_();
 			}
 		};
+		
+		eligible.each(function()
+		{
+			if( this.complete ) 
+				stepProgress();
+			else 
+				$(this).load( function(){stepProgress();} );
+		});
 	}
 })( jQuery );
