@@ -11,79 +11,88 @@
 
 (function( $ )
 {
-	$.fn.takeoverloader = function( method )
-	{
-		var 
-			query = 'img:not([src=""]):not(.noloader)',
-			checkInterval; // pre-defined so closure compiler doesn't assume it's renameable in subclosures.
-		
-		var methods = {
-			init: function( options )
-			{
-				var
-					eligible = this.find( query ),
-					total = eligible.length-1,
-					loaded = 0,
-					progress = options.progress || function(){},
-					complete = options.complete || function(){};
+  $.fn.takeoverloader = function( method )
+  {
+    var 
+      query = 'img:not([src=""]):not(.noloader)',
+      checkInterval,
+      eligible;
+    
+    var methods = {
+      init: function( options )
+      {
+        eligible = this.find( query );
 
-				var stepProgress = function()
-				{
-					loaded++;
-					progress( loaded/total );
-					if(loaded>=total)
-					{
-						clearInterval( checkInterval );
-						eligible.unbind( 'load.takeover' );
-						complete();
-					}
-				};
+        var
+          total = eligible.length-1,
+          loaded = 0,
+          progress = options.progress || function(){},
+          complete = options.complete || function(){};
 
-				// fall back interval.
-				checkInterval = setInterval( function()
-				{
-					var allLoaded = true;
-					eligible.each( function()
-					{ 
-						if( !this.complete )
-						{ 
-							allLoaded = false;
-							return false;
-						}
-						return true;
-					});
+        var stepProgress = function()
+        {
+          loaded++;
+          progress( loaded/total );
+          if(loaded>=total)
+          {
+            clearInterval( checkInterval );
+            eligible.unbind( 'load.takeover' );
+            complete();
+          }
+        };
 
-					if( allLoaded )
-					{
-						loaded = total_-1;
-						stepProgress();
-					}			
-				}, 1E3 );
+        // fall back interval.
+        checkInterval = setInterval( function()
+        {
+          var allLoaded = true;
+          eligible.each( function()
+          { 
+            if( !this.complete )
+            { 
+              allLoaded = false;
+              return false;
+            }
+            return true;
+          });
 
-				eligible.each(function()
-				{
-					if( this.complete ) 
-						stepProgress();
-					else 
-						$(this).bind( 'load.takeover', function(){ stepProgress(); } );
-				});
-				
-				return this;
-			},
-			
-			destroy: function()
-			{
-				this.find( query ).unbind( 'load.takeover' );
-				clearInterval( checkInterval );
-			}
-		};
-		
-		if ( methods[method] ) {
-			return methods[method].apply( this, Array.prototype.slice.call( arguments, 1 ));
-		} else if ( typeof method === 'object' || ! method ) {
-			return methods.init.apply( this, arguments );
-		} else {
-			$.error( 'Method ' +  method + ' does not exist on jQuery.takeoverloader' );
-		}
-	}
+          if( allLoaded )
+          {
+            loaded = total-1;
+            stepProgress();
+          }     
+        }, 1E3 );
+
+        eligible.each(function()
+        {
+          if( this.complete ) 
+            stepProgress();
+          else 
+            $(this).bind( 'load.takeover', function(){ stepProgress(); } );
+        });
+        
+        return this;
+      },
+
+      // Useful if you're adding DOM elements at runtime
+      // e.g Backbone.collection model updates.
+      update: function()
+      {
+        eligible = this.find( query );
+      },
+      
+      destroy: function()
+      {
+        this.find( query ).unbind( 'load.takeover' );
+        clearInterval( checkInterval );
+      }
+    };
+    
+    if ( methods[method] ) {
+      return methods[method].apply( this, Array.prototype.slice.call( arguments, 1 ));
+    } else if ( typeof method === 'object' || ! method ) {
+      return methods.init.apply( this, arguments );
+    } else {
+      $.error( 'Method ' +  method + ' does not exist on jQuery.takeoverloader' );
+    }
+  }
 })( jQuery );
